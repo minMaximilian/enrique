@@ -1,0 +1,6 @@
+version: "3"
+services:
+  enrique:
+    container_name: enrique
+    env_file: ./.env
+    build: .

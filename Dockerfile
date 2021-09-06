@@ -1,24 +1,11 @@
-FROM golang:1.16-alpine AS dev
+FROM node:16.8
 
-WORKDIR /bot
-
-RUN apk add git
-
-COPY go.mod .
-COPY go.sum .
-
-RUN go mod download
+WORKDIR /usr/src/app
 
 COPY . .
 
-RUN go install github.com/minMaximilian/enrique
+RUN npm install
 
-CMD [ "go", "run", "*.go" ]
+RUN [ "node", "deploy-commands.ts" ]
 
-FROM alpine
-
-WORKDIR /bin
-
-COPY --from=dev /go/bin/enrique ./enrique
-
-CMD ["sh", "-c", "enrique -p"]
+CMD [ "node", "index.ts" ]

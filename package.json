@@ -1,0 +1,29 @@
+{
+  "name": "enrique",
+  "version": "1.0.0",
+  "description": "Enrique is a bot used to provide services for Paradox Interactive games. It has features such as player tracking, reservation tracking, server management, and save game parser to parse Europa Universalis IV, Hearts of Iron IV, and Stellaris Games.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minMaximilian/enrique.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minMaximilian/enrique/issues"
+  },
+  "homepage": "https://github.com/minMaximilian/enrique#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}
