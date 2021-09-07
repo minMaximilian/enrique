@@ -16,4 +16,6 @@ COPY package.json package-lock.json ./
 
 COPY --from=build /usr/enrique/dist ./src
 
+RUN npm ci
+
 CMD ["node", "./src/index.js"]
