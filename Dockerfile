@@ -1,11 +1,19 @@
-FROM node:16.8
+FROM node:16.8 AS build
 
-WORKDIR /usr/src/app
+WORKDIR /usr/enrique
 
 COPY . .
 
 RUN npm install
 
-RUN [ "node", "deploy-commands.ts" ]
+RUN npm run build
 
-CMD [ "node", "index.ts" ]
+FROM node:16.8
+
+WORKDIR /usr/enrique
+
+COPY package.json package-lock.json ./
+
+COPY --from=build /usr/enrique/dist ./src
+
+CMD ["node", "./src/index.js"]
