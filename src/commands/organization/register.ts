@@ -3,7 +3,7 @@ import { CommandInteraction } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('create_registry')
+		.setName('register')
 		.setDescription('Registers the player to the registry')
         .addStringOption(option => 
             option.setName('registry_name')
