@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildChannel, MessageEmbed, Permissions, TextChannel } from "discord.js";
+import { CommandInteraction, Guild, GuildChannel, MessageEmbed, Permissions, TextChannel } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default {
@@ -37,7 +37,6 @@ export default {
             } else {
                 return permissions.has(flag)
             }
-          
         }
 
         if (interaction.channel?.type !== 'DM') {
@@ -47,16 +46,19 @@ export default {
                 .setDescription('This is a registry board, you can use /register to show up here')
                 .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
 
-            let channel: any = interaction.options.getChannel('channel', false)!
+            let channel = interaction.options!.getChannel('channel', false)! as TextChannel
         
             if (channel && channel.type === 'GUILD_TEXT') {
-                channel as TextChannel
-                await channel.send({embeds: [embed]})
+                let msg = await channel.send({embeds: [embed]})
+
+                console.log(msg.id)
 
                 await interaction.reply(`Created a registry in the channel: ${channel.name}`)
             } else {
                 channel = interaction.channel as TextChannel
-                await channel.send({embeds: [embed]})
+                let msg = await channel.send({embeds: [embed]})
+
+                console.log(msg.id)
 
                 await interaction.reply(`Created a registry in concurrent channel, channel selected wasn't a text channel`)
             }
