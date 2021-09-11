@@ -2,5 +2,20 @@ version: "3"
 services:
   enrique:
     container_name: enrique
-    env_file: ./.env
     build: .
+    env_file: ./.env
+    networks:
+      - database
+  postgres:
+    container_name: enrique_db
+    build: ./docker/postgres
+    networks:
+      - database
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    user: 1000:1000
+
+networks:
+  database:
