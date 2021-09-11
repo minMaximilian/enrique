@@ -1,15 +1,10 @@
-import { Client } from 'pg';
+import postgres from "postgres";
 
-export default async () => {
-    let database = new Client({
-        user: process.env.POSTGRES_USER,
-        host: 'enrique',
-        database: 'enrique',
-        password: process.env.POSTGRES_PASSWORD,
-        port: 5432
-    })
+const sql = postgres({
+    host: 'enrique_db',
+    port: 5432,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD
+})
 
-    await database.connect()
-
-    return database
-}
+export default sql

@@ -1,5 +1,6 @@
 import { CommandInteraction, Guild, GuildChannel, MessageEmbed, Permissions, TextChannel } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
+import insertRegistry from "../../db/crud/insertRegistry";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -14,10 +15,6 @@ export default {
             .setDescription('A channel to put the registry in, this is where announcements will be made also')
             .setRequired(false)
             )
-        .addRoleOption(option =>
-            option.setName('role')
-            .setDescription('This role will be used for pings when you create an event')
-            .setRequired(false))
         .addStringOption(option =>
             option.setName('supported_game')
             .setDescription('This will create a registry for your game with one of our integrated games in the system')
@@ -39,10 +36,12 @@ export default {
             }
         }
 
+        const r_name: string = interaction.options.getString('registry_name')!
+
         if (interaction.channel?.type !== 'DM') {
             const embed = new MessageEmbed()
                 .setColor('AQUA')
-                .setTitle(`People currently registered for ${interaction.options.getString('registry_name')!}`)
+                .setTitle(`People currently registered for ${r_name}`)
                 .setDescription('This is a registry board, you can use /register to show up here')
                 .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
 
@@ -50,15 +49,13 @@ export default {
         
             if (channel && channel.type === 'GUILD_TEXT') {
                 let msg = await channel.send({embeds: [embed]})
-
-                console.log(msg.id)
+                insertRegistry(interaction.guildId!, msg.id, r_name)
 
                 await interaction.reply(`Created a registry in the channel: ${channel.name}`)
             } else {
                 channel = interaction.channel as TextChannel
                 let msg = await channel.send({embeds: [embed]})
-
-                console.log(msg.id)
+                insertRegistry(interaction.guildId!, msg.id, r_name)
 
                 await interaction.reply(`Created a registry in concurrent channel, channel selected wasn't a text channel`)
             }

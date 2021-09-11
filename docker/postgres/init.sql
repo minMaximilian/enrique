@@ -3,14 +3,12 @@ CREATE TABLE IF NOT EXISTS register (
     message_id INT NOT NULL,
     registry_name VARCHAR(64) NOT NULL,
     embed_data JSONB,
-    role_id INT
 );
 
 COMMENT ON COLUMN register.guild_id IS 'The id of the guild';
 COMMENT ON COLUMN register.message_id IS 'The id of the message that the register is stored in';
 COMMENT ON COLUMN register.registry_name IS 'The registry name';
 COMMENT ON COLUMN register.embed_data IS 'Embed of all the registered users';
-COMMENT ON COLUMN register.role_id IS 'The id of the role that is used for announcements';
 
 CREATE TABLE IF NOT EXISTS schedule (
     guild_id INT NOT NULL,
