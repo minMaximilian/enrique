@@ -1,5 +1,3 @@
-import { ContextMenuInteraction } from "discord.js"
-import register from "../../commands/organization/register"
 import sql from "../db"
 
 interface sign_ups {

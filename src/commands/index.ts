@@ -1,13 +1,13 @@
 import { Collection } from 'discord.js';
 import BaseCommand from '../interfaces/baseCommand';
 import ping from './info/ping';
-import createRegistry from './organization/createRegistry';
+import registry from './organization/registry';
 import register from './organization/register';
 import deregister from './organization/deregister';
 
 const commandList: BaseCommand[] = [
     ping, 
-    createRegistry, 
+    registry, 
     register, 
     deregister
 ]
