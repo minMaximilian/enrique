@@ -30,9 +30,7 @@ export default {
                     .setDescription(`${list}\nThis is a registry board, you can use /register to show up here`)
                     .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
 
-                msg.edit({embeds: [embed]})
-                
-                
+                msg.edit({embeds: [embed]})     
 
                 await interaction.reply('Succesfully registered')
             } else {
