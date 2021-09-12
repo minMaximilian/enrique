@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
+import register from "../../db/crud/register";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -17,7 +18,13 @@ export default {
 
 	async execute(interaction: CommandInteraction) {
         if (interaction.channel?.type !== 'DM') {
-            await interaction.reply('Succesfully registered')
+            const res = await register(interaction.guildId!, interaction.options.getString('registry_name')!, interaction.user.id, interaction.options.getString('role')!)
+            if (res) {
+                console.log(res)
+                await interaction.reply('Succesfully registered')
+            } else {
+                await interaction.reply(`The registry board ${interaction.options.getString('registry_name')} doesn't exist`)
+            }
         } else {
             await interaction.reply('This command isn\'t functional in dms')
         }
