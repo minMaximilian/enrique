@@ -4,6 +4,7 @@ CREATE DATABASE prod;
 
 CREATE TABLE register (
     guild_id VARCHAR(32) NOT NULL,
+    channel_id VARCHAR(32) NOT NULL,
     message_id VARCHAR(32) NOT NULL,
     registry_name TEXT NOT NULL,
     embed_data TEXT,
@@ -12,6 +13,7 @@ CREATE TABLE register (
 
 COMMENT ON COLUMN register.guild_id IS 'The id of the guild';
 COMMENT ON COLUMN register.message_id IS 'The id of the message that the register is stored in';
+COMMENT ON COLUMN register.channel_id IS 'The id of the message that the channel is stored in';
 COMMENT ON COLUMN register.registry_name IS 'The registry name';
 COMMENT ON COLUMN register.embed_data IS 'Extra data that may be needed to be displayed';
 

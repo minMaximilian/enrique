@@ -49,13 +49,13 @@ export default {
         
             if (channel && channel.type === 'GUILD_TEXT') {
                 let msg = await channel.send({embeds: [embed]})
-                await insertRegistry(interaction.guildId!, msg.id, r_name)
+                await insertRegistry(interaction.guildId!, interaction.channelId, msg.id, r_name)
 
                 await interaction.reply(`Created a registry in the channel: ${channel.name}`)
             } else {
                 channel = interaction.channel as TextChannel
                 let msg = await channel.send({embeds: [embed]})
-                await insertRegistry(interaction.guildId!, msg.id, r_name)
+                await insertRegistry(interaction.guildId!, interaction.channelId, msg.id, r_name)
 
                 await interaction.reply(`Created a registry in concurrent channel, channel selected wasn't a text channel`)
             }

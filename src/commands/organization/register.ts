@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import register from "../../db/crud/register";
 
 export default {
@@ -21,6 +21,19 @@ export default {
             const res = await register(interaction.guildId!, interaction.options.getString('registry_name')!, interaction.user.id, interaction.options.getString('role')!)
             if (res) {
                 console.log(res)
+                const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
+                const msg = await chan.messages.fetch(res[0].message_id)
+                const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+                const embed = new MessageEmbed()
+                    .setColor('AQUA')
+                    .setTitle(`People currently registered for ${interaction.options.getString('registry_name')}`)
+                    .setDescription(`${list}\nThis is a registry board, you can use /register to show up here`)
+                    .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
+
+                msg.edit({embeds: [embed]})
+                
+                
+
                 await interaction.reply('Succesfully registered')
             } else {
                 await interaction.reply(`The registry board ${interaction.options.getString('registry_name')} doesn't exist`)
