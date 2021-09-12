@@ -1,11 +1,5 @@
+import sign_ups from "../../interfaces/sign_ups"
 import sql from "../db"
-
-export interface sign_ups {
-    uuid: string,
-    role_text: string,
-    message_id: string,
-    channel_id: string,
-}
 
 export default async (guild_id: string, name: string, uuid: string) => {
     const registry =  await sql<sign_ups[]>`

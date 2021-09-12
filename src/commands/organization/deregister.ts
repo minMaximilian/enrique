@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import postgres from "postgres";
-import deregister, { sign_ups } from "../../db/crud/deregister";
+import deregister from "../../db/crud/deregister";
+import sign_ups from "../../interfaces/sign_ups";
 
 // TODO: CLEANUP FOR SUBCOMMANDS, split them into diff functions
 export default {

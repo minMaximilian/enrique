@@ -1,8 +1,15 @@
 import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "discord.js"
 import insertRegistry from "../../../db/crud/insertRegistry"
-import hasPermission from "../helpers/hasPermission"
 
 export default async (interaction: CommandInteraction) => {
+    const hasPermission = (permissions: string | Readonly<Permissions>, flag: bigint): boolean => {
+        if (typeof permissions === 'string') {
+            return false
+        } else {
+            return permissions.has(flag)
+        }
+    }
+    
     const r_name: string = interaction.options.getString('registry_name')!
     
     if (interaction.channel?.type !== 'DM') {

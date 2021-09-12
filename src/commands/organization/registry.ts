@@ -1,6 +1,8 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import createRegistry from "./subcommands/createRegistry";
+import clearRegistry from "./subcommands/clearRegistry";
+import destroyRegistry from "./subcommands/destroyRegistry";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -30,6 +32,24 @@ export default {
                     ['Civilization 6', 'civ6']
                 ])
             .setRequired(false))
+            )
+        .addSubcommand(subcommand => 
+            subcommand
+            .setName('clear')
+            .setDescription('Clears all records from a registry')
+            .addStringOption(option => 
+                option.setName('registry_name')
+                .setDescription('Name of the registry')
+                .setRequired(true))
+            )
+        .addSubcommand(subcommand => 
+            subcommand
+            .setName('destroy')
+            .setDescription('Destroys the registry preventing it from being used and accessed')
+            .addStringOption(option => 
+                option.setName('registry_name')
+                .setDescription('Name of the registry')
+                .setRequired(true))
             ),
 
 	async execute(interaction: CommandInteraction) {
@@ -39,11 +59,11 @@ export default {
                 break;
         
             case 'clear':
-
+                await clearRegistry(interaction)
                 break;
 
             case 'destroy':
-
+                await destroyRegistry(interaction)
                 break;
         }
 	},
