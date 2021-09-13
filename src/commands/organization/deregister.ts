@@ -1,8 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
+import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "discord.js";
 import postgres from "postgres";
 import deregister from "../../db/crud/deregister";
 import sign_ups from "../../interfaces/sign_ups";
+import hasPermission from "./helpers/hasPermission";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -21,11 +22,11 @@ export default {
                 .addStringOption(option => option.setName('registry').setDescription('The name of the registry').setRequired(true))),
 
 	async execute(interaction: CommandInteraction) {
-        if (interaction.channel?.type !== 'DM') {
-            let res: false | postgres.RowList<sign_ups[]>
+        if (interaction.channel?.type === 'GUILD_TEXT') {
+            let res: false | postgres.RowList<sign_ups[]> = false
             if (interaction.options.getSubcommand() == 'registry') {
                 res = await deregister(interaction.guildId!, interaction.options.getString('registry')!, interaction.user.id)
-            } else {
+            } else if (hasPermission(interaction.member!.permissions, Permissions.FLAGS.MANAGE_MESSAGES)){
                 res = await deregister(interaction.guildId!, interaction.options.getString('registry')!, interaction.options.getUser('user')?.id!)
             }
             if (res) {
