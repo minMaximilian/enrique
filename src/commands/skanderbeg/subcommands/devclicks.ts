@@ -11,7 +11,7 @@ export default async (interaction: CommandInteraction) => {
     }
     l.sort((a, b) => Number(b.dev_clicks) - Number(a.dev_clicks))
 
-    const str = l.map((x, index) => `${index + 1}: ${x.player}\nCountry Tag: ${x.tag}\nDevelopment Clicks: ${x.dev_clicks}\nAverage Dev Cost: ${x.dev_avg_cost}`).join('\n\n')
+    const str = l.map((x, index) => `*${index + 1}: ${x.player}*\nCountry Tag: ${x.tag}\nDevelopment Clicks: ${x.dev_clicks}\nAverage Dev Cost: ${x.dev_avg_cost}`).join('\n\n')
 
     const embed = new MessageEmbed()
             .setColor("ORANGE")
