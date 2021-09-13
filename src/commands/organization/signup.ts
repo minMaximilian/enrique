@@ -4,7 +4,7 @@ import register from "../../db/crud/register";
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('register')
+		.setName('signup')
 		.setDescription('Registers the player to the registry')
         .addStringOption(option => 
             option.setName('registry_name')
