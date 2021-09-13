@@ -30,7 +30,6 @@ export default {
                 res = await deregister(interaction.guildId!, interaction.options.getString('registry')!, interaction.options.getUser('user')?.id!)
             }
             if (res) {
-                console.log(res)
                 const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
                 const msg = await chan.messages.fetch(res[0].message_id)
                 const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
@@ -42,12 +41,12 @@ export default {
 
                 msg.edit({embeds: [embed]})     
 
-                await interaction.reply('Succesfully deregistered')
+                await interaction.reply({content: 'Succesfully deregistered', ephemeral: true})
             } else {
-                await interaction.reply(`The registry board ${interaction.options.getString('registry_name')} doesn't exist or you weren't previously registered`)
+                await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist or you weren't previously registered`, ephemeral: true})
             }
         } else {
-            await interaction.reply('This command isn\'t functional in dms')
+            await interaction.reply({content: 'This command isn\'t functional in dms', ephemeral: true})
         }
 	},
 };

@@ -8,10 +8,9 @@ export default async (interaction: CommandInteraction) => {
     if (interaction.channel?.type !== 'DM') {    
         const res = await pruneRegistry(interaction.guildId!, r_name)
         if (res) {
-            console.log(res)
             const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
             const msg = await chan.messages.fetch(res[0].message_id)
-            const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+            const list = ''
             const embed = new MessageEmbed()
                 .setColor('AQUA')
                 .setTitle(`People currently registered for ${interaction.options.getString('registry_name')}`)
@@ -20,13 +19,13 @@ export default async (interaction: CommandInteraction) => {
 
             msg.edit({embeds: [embed]})     
 
-            await interaction.reply('Succesfully deregistered everyone')
+            await interaction.reply({content: 'Succesfully deregistered everyone', ephemeral: true})
         } else {
-            await interaction.reply(`The registry board ${interaction.options.getString('registry_name')} doesn't exist`)
+            await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
         }
     } else if (hasPermission(interaction.member!.permissions, Permissions.FLAGS.ADMINISTRATOR)) {
-        await interaction.reply('Insufficient permissions')
+        await interaction.reply({content: 'Insufficient permissions', ephemeral: true})
     } else {
-        await interaction.reply('This command isn\'t functional in dms')
+        await interaction.reply({content: 'This command isn\'t functional in dms', ephemeral: true})
     }
 }

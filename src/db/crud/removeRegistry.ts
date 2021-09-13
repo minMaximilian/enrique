@@ -13,7 +13,9 @@ export default async (guild_id: string, name: string) => {
         await sql`
         DELETE FROM sign_ups 
         WHERE guild_id=${guild_id} AND registry_name=${name};
+        `
 
+        await sql`
         DELETE FROM register
         WHERE guild_id=${guild_id} AND registry_name=${name};
         `
