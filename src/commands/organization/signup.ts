@@ -17,7 +17,7 @@ export default {
             ),
 
 	async execute(interaction: CommandInteraction) {
-        if (interaction.channel?.type !== 'DM') {
+        if (interaction.channel?.type === 'GUILD_TEXT') {
             const res = await register(interaction.guildId!, interaction.options.getString('registry_name')!, interaction.user.id, interaction.options.getString('role')!)
             if (res) {
                 const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel

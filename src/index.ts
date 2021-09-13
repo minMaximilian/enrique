@@ -1,5 +1,4 @@
 import { Client, Intents } from 'discord.js';
-import fs from 'fs';
 import { commands } from './commands/index';
 
 const client = new Client({
@@ -7,6 +6,9 @@ const client = new Client({
 })
 
 client.once('ready', () => {
+	client.user?.setPresence({
+		activities: [{ name: `stratagem.games\nCurrently in ${client.guilds.cache.size} servers`, type: 'PLAYING' }], status: 'online' 
+	})
 	console.log('Ready to rock and roll');
 })
 

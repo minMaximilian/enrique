@@ -4,7 +4,6 @@ import postgres from "postgres";
 import deregister from "../../db/crud/deregister";
 import sign_ups from "../../interfaces/sign_ups";
 
-// TODO: CLEANUP FOR SUBCOMMANDS, split them into diff functions
 export default {
 	data: new SlashCommandBuilder()
 		.setName('deregister')
