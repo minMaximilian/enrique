@@ -6,7 +6,6 @@ export default async (interaction: CommandInteraction) => {
     const r_name: string = interaction.options.getString('registry_name')!
     
     if (interaction.channel?.type !== 'DM') {    
-        let channel = interaction.options!.getChannel('channel', false)! as TextChannel
         const res = await pruneRegistry(interaction.guildId!, r_name)
         if (res) {
             console.log(res)

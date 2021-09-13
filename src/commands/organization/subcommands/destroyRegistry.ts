@@ -1,37 +1,22 @@
 import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "discord.js"
-import insertRegistry from "../../../db/crud/insertRegistry"
+import removeRegistry from "../../../db/crud/removeRegistry"
+import hasPermission from "../helpers/hasPermission"
 
 export default async (interaction: CommandInteraction) => {
-    const hasPermission = (permissions: string | Readonly<Permissions>, flag: bigint): boolean => {
-        if (typeof permissions === 'string') {
-            return false
-        } else {
-            return permissions.has(flag)
-        }
-    }
-    
     const r_name: string = interaction.options.getString('registry_name')!
     
-    if (interaction.channel?.type !== 'DM') {
-        const embed = new MessageEmbed()
-            .setColor('AQUA')
-            .setTitle(`People currently registered for ${r_name}`)
-            .setDescription('This is a registry board, you can use /register to show up here')
-            .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
-    
-        let channel = interaction.options!.getChannel('channel', false)! as TextChannel
-    
-        if (channel && channel.type === 'GUILD_TEXT') {
-            let msg = await channel.send({embeds: [embed]})
-            await insertRegistry(interaction.guildId!, interaction.channelId, msg.id, r_name)
-    
-            await interaction.reply(`Created a registry in the channel: ${channel.name}`)
+    if (interaction.channel?.type !== 'DM') {    
+        const res = await removeRegistry(interaction.guildId!, r_name)
+        if (res) {
+            console.log(res)
+            const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
+            const msg = await chan.messages.fetch(res[0].message_id)
+            const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+            msg.delete()    
+
+            await interaction.reply('Succesfully deleted the registry')
         } else {
-            channel = interaction.channel as TextChannel
-            let msg = await channel.send({embeds: [embed]})
-            await insertRegistry(interaction.guildId!, interaction.channelId, msg.id, r_name)
-    
-            await interaction.reply(`Created a registry in concurrent channel, channel selected wasn't a text channel`)
+            await interaction.reply(`The registry board ${interaction.options.getString('registry_name')} doesn't exist`)
         }
     } else if (hasPermission(interaction.member!.permissions, Permissions.FLAGS.ADMINISTRATOR)) {
         await interaction.reply('Insufficient permissions')
