@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "discord.js"
+import { CommandInteraction, TextChannel } from "discord.js"
 import removeRegistry from "../../../db/crud/removeRegistry"
 
 export default async (interaction: CommandInteraction) => {

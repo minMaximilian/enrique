@@ -3,7 +3,7 @@ import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "disc
 import postgres from "postgres";
 import deregister from "../../db/crud/deregister";
 import sign_ups from "../../interfaces/sign_ups";
-import hasPermission from "./helpers/hasPermission";
+import hasPermission from "../helpers/hasPermission";
 
 export default {
 	data: new SlashCommandBuilder()

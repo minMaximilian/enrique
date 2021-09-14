@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed, Permissions, TextChannel } from "discord.js"
+import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js"
 import ifRegistry from "../../../db/crud/ifRegistry"
 import insertRegistry from "../../../db/crud/insertRegistry"
 

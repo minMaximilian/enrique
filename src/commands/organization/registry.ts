@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import createRegistry from "./subcommands/createRegistry";
 import clearRegistry from "./subcommands/clearRegistry";
 import destroyRegistry from "./subcommands/destroyRegistry";
-import hasPermission from "./helpers/hasPermission";
+import permissionWrapper from "../helpers/permissionWrapper";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -54,26 +54,20 @@ export default {
             ),
 
 	async execute(interaction: CommandInteraction) {
-        if (interaction.channel?.type === 'GUILD_TEXT') {    
-            if (hasPermission(interaction.member!.permissions, Permissions.FLAGS.ADMINISTRATOR)) {
-                switch (interaction.options.getSubcommand()) {
-                    case 'create':
-                        await createRegistry(interaction)
-                        break;
-                
-                    case 'clear':
-                        await clearRegistry(interaction)
-                        break;
-    
-                    case 'destroy':
-                        await destroyRegistry(interaction)
-                        break;
-                }
-            } else {
-                await interaction.reply({content: 'Insufficient permissions', ephemeral: true})
+        permissionWrapper(interaction, async () => {
+            switch (interaction.options.getSubcommand()) {
+                case 'create':
+                    await createRegistry(interaction)
+                    break;
+            
+                case 'clear':
+                    await clearRegistry(interaction)
+                    break;
+        
+                case 'destroy':
+                    await destroyRegistry(interaction)
+                    break;
             }
-        } else {
-            await interaction.reply({content: 'This command isn\'t functional in dms', ephemeral: true})
-        }
+        })
 	},
 };
