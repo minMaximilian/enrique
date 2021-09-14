@@ -1,5 +1,5 @@
 import { APIInteractionGuildMember } from "discord-api-types";
-import { CommandInteraction, Guild, GuildMember, GuildMemberManager, Permissions } from "discord.js";
+import { CommandInteraction, GuildMember, Permissions } from "discord.js";
 import redis from "../../db/redis";
 import hasPermission from "./hasPermission";
 
@@ -8,7 +8,7 @@ const typeGuard = (x: GuildMember | APIInteractionGuildMember): x is GuildMember
 }
 
 const returnPermissions = (interaction: CommandInteraction, roles: Array<string>) => {
-    return redis.get(`${interaction.guildId}_${interaction.commandId}`, (err, data) => {
+    redis.get(`${interaction.guildId}_${interaction.commandId}`, (err, data) => {
         if (err) {
           console.error(err);
         }

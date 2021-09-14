@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const redis = createClient();
+const redis = createClient({host: 'enrique_redis'});
 
 // TODO: Init for permissions
 
