@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import register from "../../db/crud/register";
+import guildWrapper from "../helpers/guildWrapper";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -17,7 +18,7 @@ export default {
             ),
 
 	async execute(interaction: CommandInteraction) {
-        if (interaction.channel?.type === 'GUILD_TEXT') {
+        guildWrapper(interaction, async (interaction: CommandInteraction) => {
             const res = await register(interaction.guildId!, interaction.options.getString('registry_name')!, interaction.user.id, interaction.options.getString('role')!)
             if (res) {
                 const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
@@ -28,15 +29,13 @@ export default {
                     .setTitle(`People currently registered for ${interaction.options.getString('registry_name')}`)
                     .setDescription(`${list}\nThis is a registry board, you can use /register to show up here`)
                     .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
-
+        
                 msg.edit({embeds: [embed]})     
-
+        
                 await interaction.reply({content: 'Succesfully registered', ephemeral: true})
             } else {
                 await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
             }
-        } else {
-            await interaction.reply({content: 'This command isn\'t functional in dms', ephemeral: true})
-        }
+        })
 	},
 };
