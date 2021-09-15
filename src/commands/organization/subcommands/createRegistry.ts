@@ -1,15 +1,12 @@
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js"
 import ifRegistry from "../../../db/crud/ifRegistry"
 import insertRegistry from "../../../db/crud/insertRegistry"
+import registryEmbed from "../helpers/registryEmbed"
 
 export default async (interaction: CommandInteraction) => {
     const r_name: string = interaction.options.getString('registry_name')!
     
-    const embed = new MessageEmbed()
-        .setColor('AQUA')
-        .setTitle(`People currently registered for ${r_name}`)
-        .setDescription('This is a registry board, you can use /register to show up here')
-        .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
+    const embed = registryEmbed(interaction, '')
 
     let channel = interaction.options!.getChannel('channel', false)! as TextChannel
     const c = await ifRegistry(interaction.guildId!, r_name)

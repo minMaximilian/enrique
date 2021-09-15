@@ -7,7 +7,7 @@ export default async (interaction: CommandInteraction) => {
     if (res) {
         const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
         const msg = await chan.messages.fetch(res[0].message_id)
-        const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+
         msg.delete()
 
         await interaction.reply({content: 'Succesfully deleted the registry', ephemeral: true})
