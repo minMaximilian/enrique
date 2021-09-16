@@ -1,7 +1,12 @@
 import { createClient } from 'redis';
+import initRedis from './initRedis';
 
-const redis = createClient({host: 'enrique_redis'});
+const redis = createClient({socket: {
+    host: 'enrique_redis'
+}})
 
-// TODO: Init for permissions
+redis.connect()
+
+initRedis(redis)
 
 export default redis

@@ -8,21 +8,17 @@ const typeGuard = (x: GuildMember | APIInteractionGuildMember): x is GuildMember
 	return typeof x === "object";
 }
 
-const returnPermissions = (interaction: CommandInteraction, roles: Array<string>) => {
-    redis.get(`${interaction.guildId}_${interaction.commandId}`, (err, data) => {
-        if (err) {
-          console.error(err);
-        }
-        if (data) {
-            const j = JSON.parse(data)
-            for (let i of j.roles) {
-                if (roles.includes(i)) {
-                    return true
-                }
+const returnPermissions = async (interaction: CommandInteraction, roles: Array<string>) => {
+    const data = await redis.get(`${interaction.guildId}_${interaction.commandName}`)
+    if (data) {
+        const j = JSON.parse(data)
+        for (let i of j.roles) {
+            if (roles.includes(i)) {
+                return true
             }
         }
-        return false
-    })
+    }
+    return false
 }
 
 export default async (interaction: CommandInteraction, fn: Function, ...args: any[]) => {

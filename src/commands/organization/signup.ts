@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import register from "../../db/crud/register";
 import guildWrapper from "../helpers/guildWrapper";
+import registryEmbed from "./helpers/registryEmbed";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -24,11 +25,7 @@ export default {
                 const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
                 const msg = await chan.messages.fetch(res[0].message_id)
                 const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
-                const embed = new MessageEmbed()
-                    .setColor('AQUA')
-                    .setTitle(`People currently registered for ${interaction.options.getString('registry_name')}`)
-                    .setDescription(`${list}\nThis is a registry board, you can use /register to show up here`)
-                    .setFooter(`This registry was made by ${interaction.user.username}`, interaction.user.displayAvatarURL())
+                const embed = registryEmbed(interaction, list)
         
                 msg.edit({embeds: [embed]})     
         
