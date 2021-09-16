@@ -1,4 +1,6 @@
 import { CommandInteraction } from "discord.js";
+import permitCommand from "../../../db/crud/permitCommand";
+import updateCommandPermission from "../../../db/crud/updateCommandPermission";
 import redis from "../../../db/redis";
 
 export default async (interaction: CommandInteraction) => {
@@ -11,12 +13,14 @@ export default async (interaction: CommandInteraction) => {
             commands.roles.push(role)
         }
         const comstr = JSON.stringify(commands)
+        updateCommandPermission(interaction.guildId!, interaction.commandName, comstr)
         redis.set(`${interaction.guildId}_${command}`, comstr)
         interaction.reply('Succesfully set the role')
     } else {
         const commands = JSON.stringify({
             roles: [role]
         })
+        permitCommand(interaction.guildId!, interaction.commandName, commands)
         redis.set(`${interaction.guildId}_${command}`, commands)
         interaction.reply('Succesfully set the role')
     }
