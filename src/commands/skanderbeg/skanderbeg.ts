@@ -1,6 +1,8 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import devclicks from "./subcommands/devclicks";
+import area from "./subcommands/area";
+import missions from "./subcommands/missions";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -37,15 +39,15 @@ export default {
 	async execute(interaction: CommandInteraction) {
         switch (interaction.options.getSubcommand()) {
             case 'devclicks':
-                await devclicks(interaction)
+                devclicks(interaction)
                 break;
 
             case 'area':
-
+                area(interaction)
                 break;
 
             case 'missions':
-
+                missions(interaction)
                 break;
         }
 	},
