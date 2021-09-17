@@ -12,7 +12,7 @@ export default async (interaction: CommandInteraction) => {
         const msg = await chan.messages.fetch(res[0].message_id)
         console.log(msg.toJSON())
         const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
-        const embed = registryEmbed(interaction, list)
+        const embed = registryEmbed(interaction, list, msg.embeds[0].footer)
         msg.edit({embeds: [embed]})     
         await interaction.reply({content: 'Succesfully deregistered', ephemeral: true})
     } else {

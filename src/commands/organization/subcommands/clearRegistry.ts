@@ -9,7 +9,7 @@ export default async (interaction: CommandInteraction) => {
         if (res) {
             const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
             const msg = await chan.messages.fetch(res[0].message_id)
-            const embed = registryEmbed(interaction, '')
+            const embed = registryEmbed(interaction, '', false)
             
             msg.edit({embeds: [embed]})     
 

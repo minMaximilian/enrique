@@ -6,7 +6,7 @@ import registryEmbed from "../helpers/registryEmbed"
 export default async (interaction: CommandInteraction) => {
     const r_name: string = interaction.options.getString('registry_name')!
     
-    const embed = registryEmbed(interaction, '')
+    const embed = registryEmbed(interaction, '', false)
 
     let channel = interaction.options!.getChannel('channel', false)! as TextChannel
     const c = await ifRegistry(interaction.guildId!, r_name)

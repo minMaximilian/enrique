@@ -25,7 +25,7 @@ export default {
                 const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
                 const msg = await chan.messages.fetch(res[0].message_id)
                 const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
-                const embed = registryEmbed(interaction, list)
+                const embed = registryEmbed(interaction, list, msg.embeds[0].footer)
         
                 msg.edit({embeds: [embed]})     
         
