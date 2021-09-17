@@ -6,6 +6,7 @@ import deregister from './organization/deregister';
 import skanderbeg from './skanderbeg/skanderbeg';
 import signup from './organization/signup';
 import permissions from './organization/permissions';
+import website from './info/website';
 
 const commandList: BaseCommand[] = [
     ping, 
@@ -13,7 +14,8 @@ const commandList: BaseCommand[] = [
     signup, 
     deregister,
     skanderbeg,
-    permissions
+    permissions,
+    website
 ]
 
 export const commands: Collection<string, BaseCommand> =  new Collection(

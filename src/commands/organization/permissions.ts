@@ -5,12 +5,8 @@ import permissionWrapper from "../helpers/permissionWrapper";
 import addPermissions from "./subcommands/addPermissions";
 import clearPermissions from "./subcommands/clearPermissions";
 import removePermissions from "./subcommands/removePermissions";
-
-const choices: [name: string, value: string][] = [
-    ['permissions', 'permissions'],
-    ['registry', 'registry'],
-    ['deregister', 'deregister']
-]
+import showPermissions from "./subcommands/showPermissions";
+import { choices } from "./helpers/choices";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -58,6 +54,11 @@ export default {
                 .setRequired(true)
                 .addChoices(choices))
             
+        )
+        .addSubcommand(subcommand => 
+            subcommand
+            .setName('show')
+            .setDescription('Shows all of the roles under each registered command')
         ),
 	async execute(interaction: CommandInteraction) {
         permissionWrapper(interaction, () => {
@@ -72,6 +73,10 @@ export default {
 
                 case 'remove':
                     removePermissions(interaction)
+                    break;
+
+                case 'show':
+                    showPermissions(interaction)
                     break;
             }
         })
