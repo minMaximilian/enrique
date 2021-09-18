@@ -1,11 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import register from "../../db/crud/register";
+import removeRegistry from "../../db/crud/removeRegistry";
 import guildWrapper from "../helpers/guildWrapper";
 import registryEmbed from "./helpers/registryEmbed";
 
 export default {
 	data: new SlashCommandBuilder()
+        .setDefaultPermission(false)
 		.setName('signup')
 		.setDescription('Registers the player to the registry')
         .addStringOption(option => 
@@ -22,14 +24,23 @@ export default {
         guildWrapper(interaction, async (interaction: CommandInteraction) => {
             const res = await register(interaction.guildId!, interaction.options.getString('registry_name')!, interaction.user.id, interaction.options.getString('role')!)
             if (res) {
-                const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
-                const msg = await chan.messages.fetch(res[0].message_id)
-                const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
-                const embed = registryEmbed(interaction, list, msg.embeds[0].footer)
+                try {
+                    const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
+                    const msg = await chan.messages.fetch(res[0].message_id)
+                    const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+                    const embed = registryEmbed(interaction, list, msg.embeds[0].footer)
+                    
+                    if (!msg.deleted) {
+                        msg.edit({embeds: [embed]})     
+                    } else {
+                        throw new Error('Message Deleted');
+                    }
         
-                msg.edit({embeds: [embed]})     
-        
-                await interaction.reply({content: 'Succesfully registered', ephemeral: true})
+                    await interaction.reply({content: 'Succesfully registered', ephemeral: true})
+                } catch {
+                    removeRegistry(interaction.guildId!, interaction.options.getString('registry_name')!)
+                    await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
+                }
             } else {
                 await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
             }

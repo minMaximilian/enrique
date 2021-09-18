@@ -15,6 +15,7 @@ for (const command of commands) {
 		console.log('Started refreshing application (/) commands.');
 
         if (process.env.PRODUCTION != 'True') {
+			console.log(appCom)
             console.log('Not running in production')
 		    await rest.put(
 		    	Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!),

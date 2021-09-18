@@ -1,7 +1,7 @@
-import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js"
-import ifRegistry from "../../../db/crud/ifRegistry"
-import insertRegistry from "../../../db/crud/insertRegistry"
-import registryEmbed from "../helpers/registryEmbed"
+import { CommandInteraction, TextChannel } from "discord.js"
+import ifRegistry from "../../../../db/crud/ifRegistry"
+import insertRegistry from "../../../../db/crud/insertRegistry"
+import registryEmbed from "../../helpers/registryEmbed"
 
 export default async (interaction: CommandInteraction) => {
     const r_name: string = interaction.options.getString('registry_name')!
@@ -14,7 +14,7 @@ export default async (interaction: CommandInteraction) => {
     if (channel && channel.type === 'GUILD_TEXT') {
         if (!c.count) {
             let msg = await channel.send({embeds: [embed]})
-            await insertRegistry(interaction.guildId!, interaction.channelId, msg.id, r_name)
+            await insertRegistry(interaction.guildId!, channel.id, msg.id, r_name)
     
             await interaction.reply({content: `Created a registry in the channel: ${channel.name}`, ephemeral: true})
         } else {

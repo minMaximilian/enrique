@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Interaction, MessageEmbed, Permissions, TextChannel } from "discord.js";
 import guildWrapper from "../helpers/guildWrapper";
-import permissionWrapper from "../helpers/permissionWrapper";
-import deregisterSelf from "./subcommands/deregisterSelf";
-import deregisterUser from "./subcommands/deregisterUser";
+import deregisterSelf from "./subcommands/deregister/deregisterSelf";
+import deregisterUser from "./subcommands/deregister/deregisterUser";
 
 export default {
 	data: new SlashCommandBuilder()
+        .setDefaultPermission(false)
 		.setName('deregister')
 		.setDescription('Deregisters the player to the registry')
         .addSubcommand(subcommand =>
@@ -28,7 +28,7 @@ export default {
                 break;
         
             case 'user':
-                await permissionWrapper(interaction, deregisterUser, interaction.options.getUser('user'))
+                deregisterUser(interaction, interaction.options.getUser('user')!)
                 break;
         }
 	},

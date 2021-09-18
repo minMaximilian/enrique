@@ -1,12 +1,12 @@
 import { CommandInteraction, Permissions } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
-import createRegistry from "./subcommands/createRegistry";
-import clearRegistry from "./subcommands/clearRegistry";
-import destroyRegistry from "./subcommands/destroyRegistry";
-import permissionWrapper from "../helpers/permissionWrapper";
+import clearRegistry from "./subcommands/registry/clearRegistry";
+import destroyRegistry from "./subcommands/registry/destroyRegistry";
+import createRegistry from "./subcommands/registry/createRegistry";
 
 export default {
 	data: new SlashCommandBuilder()
+        .setDefaultPermission(false)
         .setName('registry')
         .setDescription('Commands for creating, clearing and destroying registries')
         .addSubcommand(subcommand => 
@@ -54,20 +54,18 @@ export default {
             ),
 
 	async execute(interaction: CommandInteraction) {
-        permissionWrapper(interaction, async () => {
-            switch (interaction.options.getSubcommand()) {
-                case 'create':
-                    await createRegistry(interaction)
-                    break;
-            
-                case 'clear':
-                    await clearRegistry(interaction)
-                    break;
+        switch (interaction.options.getSubcommand()) {
+            case 'create':
+                await createRegistry(interaction)
+                break;
         
-                case 'destroy':
-                    await destroyRegistry(interaction)
-                    break;
-            }
-        })
+            case 'clear':
+                await clearRegistry(interaction)
+                break;
+        
+            case 'destroy':
+                await destroyRegistry(interaction)
+                break;
+        }
 	},
 };
