@@ -16,7 +16,7 @@ export default async (interaction: CommandInteraction) => {
         console.log(l)
         l.sort((a, b) => Number(b.total_area) - Number(a.total_area))
     
-        const str = l.map((x, index) => `**${index + 1}: ${x.player}**\nCountry Tag: ${x.tag}\nLand Area: ${x.total_area}`).join('\n\n')
+        const str = l.filter(x => x.player).map((x, index) => `**${index + 1}: ${x.player}**\nCountry Tag: ${x.tag}\nLand Area: ${x.total_area}`).join('\n\n')
     
         const embed = new MessageEmbed()
                 .setColor("ORANGE")

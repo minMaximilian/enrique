@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, Interaction, MessageEmbed, Permissions, TextChannel } from "discord.js";
-import guildWrapper from "../helpers/guildWrapper";
 import deregisterSelf from "./subcommands/deregister/deregisterSelf";
 import deregisterUser from "./subcommands/deregister/deregisterUser";
 
@@ -24,7 +23,7 @@ export default {
 	async execute(interaction: CommandInteraction) {
         switch (interaction.options.getSubcommand()) {
             case 'registry':
-                guildWrapper(interaction, deregisterSelf)
+                deregisterSelf(interaction)
                 break;
         
             case 'user':
