@@ -8,7 +8,8 @@ export default async (interaction: CommandInteraction) => {
             const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
             const msg = await chan.messages.fetch(res[0].message_id)
 
-            await msg.delete()    
+            await msg.delete()  
+            await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} has been destroyed`, ephemeral: true})
     } else {
         await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
     }

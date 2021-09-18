@@ -4,7 +4,8 @@ import { ready } from './events/ready';
 import registerCommands from './events/registerCommands';
 
 const client = new Client({
-	intents: Intents.FLAGS.GUILDS
+	intents: Intents.FLAGS.GUILDS,
+	failIfNotExists: false
 })
 
 client.once('ready', ready)

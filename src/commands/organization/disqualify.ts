@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, TextChannel } from "discord.js";
 import postgres from "postgres";
 import deregister from "../../db/crud/deregister";
-import removeRegistry from "../../db/crud/removeRegistry";
 import sign_ups from "../../interfaces/sign_ups";
 import registryEmbed from "./helpers/registryEmbed";
 

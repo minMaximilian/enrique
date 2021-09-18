@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, TextChannel } from "discord.js";
 import register from "../../db/crud/register";
-import removeRegistry from "../../db/crud/removeRegistry";
 import registryEmbed from "./helpers/registryEmbed";
 
 export default {
