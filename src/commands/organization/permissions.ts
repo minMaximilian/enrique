@@ -1,4 +1,3 @@
-// TODO: Role base permissions and Redis
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import addPermissions from "./subcommands/permissions/addPermissions";

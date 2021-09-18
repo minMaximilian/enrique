@@ -2,6 +2,8 @@ import { ApplicationCommandPermissionData, Guild, PermissionOverwriteManager, Pe
 import client from "..";
 import { commands } from "./ready";
 
+const userCommands = ['signup', 'withdraw']
+
 export default async (guild: Guild) => {
     client.user?.setPresence({
 		activities: [{ name: `Currently in ${client.guilds.cache.size} servers`, type: 'PLAYING' }], status: 'online' 
@@ -28,7 +30,7 @@ export default async (guild: Guild) => {
     }
 
     for (let i of commands!) {
-        if (!i[1].defaultPermission && i[1].name != 'signup') {
+        if (!i[1].defaultPermission && !userCommands.includes(i[1].name)) {
             guild.commands.permissions.set({
                 command: i[1].permissions.commandId, permissions: fullPerms
             })
