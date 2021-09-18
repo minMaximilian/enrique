@@ -5,16 +5,10 @@ export default async (interaction: CommandInteraction) => {
     const r_name: string = interaction.options.getString('registry_name')!
     const res = await removeRegistry(interaction.guildId!, r_name)
     if (res) {
-        try {
             const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
             const msg = await chan.messages.fetch(res[0].message_id)
 
-            if (!msg.deleted) {
-                await msg.delete()    
-            }
-        } finally {
-            await interaction.reply({content: 'Succesfully deleted the registry', ephemeral: true})
-        }
+            await msg.delete()    
     } else {
         await interaction.reply({content: `The registry board ${interaction.options.getString('registry_name')} doesn't exist`, ephemeral: true})
     }

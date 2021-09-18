@@ -25,18 +25,12 @@ export default {
         res = await deregister(interaction.guildId!, interaction.options.getString('registry')!, interaction.options.getUser('user')!.id)
         if (res) {
             const chan = await interaction.guild?.channels.fetch(res[0].channel_id) as TextChannel
-            await chan.messages.fetch(res[0].message_id).catch(() => {
-                removeRegistry(interaction.guildId!, interaction.options.getString('registry')!)
-                interaction.reply({content: 'Succesfully deregistered', ephemeral: true})
-            }).then(async (msg) => {
-                if (res) {
-                    const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
-                    const embed = registryEmbed(interaction, list, msg!.embeds[0].footer)
-                
-                    msg!.edit({embeds: [embed]})
-                    await interaction.reply({content: 'Succesfully deregistered', ephemeral: true})
-                }
-            })  
+            const msg = await chan.messages.fetch(res[0].message_id)
+            const list = res.map(x => `<@${x.uuid}>: ${x.role_text}`).join('\n')
+            const embed = registryEmbed(interaction, list, msg!.embeds[0].footer)
+            
+            msg!.edit({embeds: [embed]})
+            await interaction.reply({content: 'Succesfully deregistered', ephemeral: true})
         } else {
             await interaction.reply({content: `The registry board ${interaction.options.getString('registry')} doesn't exist or you weren't previously registered`, ephemeral: true})
         }
